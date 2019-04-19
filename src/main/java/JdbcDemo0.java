@@ -1,3 +1,6 @@
+// Code based on tutorial code at this site: http://zetcode.com/db/mysqljava/
+// modified to user log4j.  Java and build.gradle found here: https://github.com/hortonuva/jdbc-demo-0.git
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -24,14 +27,15 @@ public class JdbcDemo0 {
         String user = "horton@localhost";
         String password = "mypass";
 
+        // demo using a very simple SQL command
         String query = "SELECT VERSION()";
 
+        // if you don't know try-with-resources, see http://tutorials.jenkov.com/java-exception-handling/try-with-resources.html
         try (Connection con = DriverManager.getConnection(url, user, password);
              Statement st = con.createStatement();
              ResultSet rs = st.executeQuery(query)) {
 
             if (rs.next()) {
-
                 System.out.println("Output of query is: " + rs.getString(1));
             }
 
@@ -40,7 +44,6 @@ public class JdbcDemo0 {
             // see what happens if you edit code above to give bad user name, bad password, bad database, etc.
         }
         logger.info("Exiting application.");
-
     }
 }
 
