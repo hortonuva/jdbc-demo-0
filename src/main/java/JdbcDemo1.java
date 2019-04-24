@@ -24,7 +24,7 @@ public class JdbcDemo1 {
         String user = "horton@localhost";
         String password = "mypass";
 
-        try {
+        try {  // note: not using try-with-resources, so I really should be calling close() explicitly later
             Connection con = DriverManager.getConnection(url, user, password);
 
             // JDBC code to insert a new course
@@ -54,12 +54,16 @@ public class JdbcDemo1 {
             int colCount = rsMeta.getColumnCount();
 
             while (rs.next()) {
-//                System.out.println("Found a row");
+                // use loop and colCount to get each column as an Object (shown in class)
                 for (int i=1; i <= colCount; ++i) {
-                    System.out.printf("%s ", rs.getObject(i));
+                    System.out.printf("%-22s ", rs.getObject(i));
                 }
                 System.out.println();
+                // alternative to loop above: grab each column, if you know how many and what their types are
+//                System.out.printf("%s:%s:%s:%d\n", rs.getString(1), rs.getString(2).trim(),
+//                        rs.getString(3).trim(), rs.getInt(4));
             }
+            logger.info("Completed SELECT.");
 
         } catch (SQLException ex) {
             logger.error(ex.getMessage(), ex);
